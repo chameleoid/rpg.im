@@ -26,11 +26,11 @@ module.exports = {
       collection: 'character',
       via: 'campaign',
     },
-/*
+
     sessions: {
       collection: 'campaignsession',
       via: 'campaign',
-    },*/
+    },
   },
 
 };

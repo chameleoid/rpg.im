@@ -12,16 +12,16 @@ module.exports = {
       type: 'string',
     },
 
+    data: {
+      type: 'json',
+    },
+
     owner: {
       model: 'user',
     },
 
     campaign: {
       model: 'campaign',
-    },
-
-    data: {
-      type: 'json',
     },
   },
 
