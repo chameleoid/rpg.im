@@ -10,13 +10,16 @@
   },
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "debug": "node debug app.js"
+    "start": "./node_modules/.bin/forever app.js",
+    "debug": "node debug app.js",
+    "postinstall": "./node_modules/.bin/grunt build"
   },
   "dependencies": {
     "bcrypt": "^0.8.0",
     "ejs": "~0.8.4",
-    "grunt": "0.4.2",
+    "forever": "^0.13.0",
+    "grunt": "^0.4.2",
+    "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-coffee": "~0.10.1",
     "grunt-contrib-concat": "~0.3.0",
