@@ -36,5 +36,8 @@
     "sails": "~0.10.5",
     "sails-disk": "~0.10.0",
     "sails-mongo": "^0.10.4"
+  },
+  "engines": {
+    "node": "0.10.x"
   }
 }
