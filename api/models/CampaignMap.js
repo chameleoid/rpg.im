@@ -8,6 +8,11 @@
 module.exports = {
 
   attributes: {
+    private: {
+      type: 'boolean',
+      defaultsTo: false,
+    },
+
     visible: {
       type: 'boolean',
       defaultsTo: false,
@@ -15,6 +20,11 @@ module.exports = {
 
     data: {
       type: 'json',
+    },
+
+    owner: {
+      model: 'user',
+      required: true,
     },
 
     campaign: {

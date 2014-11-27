@@ -10,6 +10,14 @@ var bcrypt = require('bcrypt');
 module.exports = {
 
   attributes: {
+    id: {
+      type: 'string',
+      primaryKey: true,
+      defaultsTo: function() {
+        return Math.floor(Math.random() * parseInt('zzzzzzzzz', 36)).toString(36);
+      },
+    },
+
     name: {
       type: 'string',
     },
@@ -28,15 +36,24 @@ module.exports = {
 
     passphrase: {
       type: 'string',
-    },
-
-    campaigns: {
-      collection: 'campaign',
+      minLength: 6,
+      columnName: 'hash',
     },
 
     characters: {
       collection: 'character',
       via: 'owner',
+    },
+
+    toJSON: function() {
+      var obj = this.toObject();
+
+      delete obj.id;
+      delete obj.password;
+      delete obj.createdAt;
+      delete obj.updatedAt;
+
+      return obj;
     },
   },
 

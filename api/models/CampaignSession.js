@@ -8,16 +8,31 @@
 module.exports = {
 
   attributes: {
+    id: {
+      type: 'string',
+      primaryKey: true,
+      defaultsTo: function() {
+        return Math.floor(Math.random() * parseInt('zzzzzzzzz', 36)).toString(36);
+      },
+    },
+
+    public: {
+      type: 'boolean',
+      defaultsTo: false,
+    },
+
+    active: {
+      type: 'boolean',
+      defaultsTo: true,
+    },
+
     map: {
       model: 'campaignmap',
     },
 
     campaign: {
       model: 'campaign',
-    },
-
-    users: {
-      collection: 'user',
+      required: true,
     },
 
     messages: {

@@ -10,6 +10,7 @@ module.exports = {
   attributes: {
     name: {
       type: 'string',
+      required: true,
     },
 
     data: {
@@ -18,6 +19,7 @@ module.exports = {
 
     owner: {
       model: 'user',
+      required: true,
     },
 
     campaign: {

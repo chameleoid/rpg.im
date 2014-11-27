@@ -8,13 +8,27 @@
 module.exports = {
 
   attributes: {
-    owner: {
-      model: 'user',
+    id: {
+      type: 'string',
+      primaryKey: true,
+      defaultsTo: function() {
+        return Math.floor(Math.random() * parseInt('zzzzzzzzz', 36)).toString(36);
+      },
     },
 
-    users: {
-      collection: 'user',
-      via: 'campaigns',
+    name: {
+      type: 'text',
+      required: true,
+    },
+
+    public: {
+      type: 'boolean',
+      defaultsTo: false,
+    },
+
+    owner: {
+      model: 'user',
+      required: true,
     },
 
     maps: {
