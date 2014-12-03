@@ -5,9 +5,9 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
-var bcrypt = require('bcrypt');
-
 module.exports = {
+  // Enforce model schema in the case of schemaless databases
+  schema: true,
 
   attributes: {
     id: {
@@ -34,10 +34,9 @@ module.exports = {
       unique: true,
     },
 
-    passphrase: {
-      type: 'string',
-      minLength: 6,
-      columnName: 'hash',
+    passports: {
+      collection: 'Passport',
+      via: 'user'
     },
 
     characters: {
@@ -49,7 +48,7 @@ module.exports = {
       var obj = this.toObject();
 
       delete obj.id;
-      delete obj.password;
+      delete obj.passports;
       delete obj.createdAt;
       delete obj.updatedAt;
 
@@ -57,17 +56,4 @@ module.exports = {
     },
   },
 
-  beforeCreate: function(values, cb) {
-    bcrypt.hash(values.passphrase, 12, function(err, hash) {
-      if (err) {
-        return cb(err);
-      }
-
-      values.passphrase = hash;
-
-      cb();
-    });
-  },
-
 };
-

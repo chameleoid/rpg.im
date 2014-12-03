@@ -13,7 +13,7 @@ module.exports = {
     Campaign
       .create(
         {
-          owner: '3m5589oy5', // user.id
+          owner: user.id,
         },
         function(err, campaign) {
           if (err) {
@@ -23,18 +23,6 @@ module.exports = {
           return res.redirect('/campaign/' + campaign.id);
         }
       );
-  },
-
-  index: function(req, res) {
-    Campaign
-      .findOneById(req.params.campaign)
-      .exec(function(err, campaign) {
-        if (err) {
-          return res.send(err, 400);
-        }
-
-        res.json(campaign);
-      });
   },
 
 };

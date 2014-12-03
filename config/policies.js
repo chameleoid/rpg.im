@@ -28,6 +28,10 @@ module.exports.policies = {
 
   '*': !(process.env.NODE_ENV && process.env.NODE_ENV != 'development'),
 
+  CampaignController: {
+    create: 'passport',
+  },
+
   /***************************************************************************
   *                                                                          *
   * Here's an example of mapping some policies to run before a controller    *
