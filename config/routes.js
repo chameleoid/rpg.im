@@ -25,31 +25,15 @@ module.exports.routes = {
   'get /': { view: 'index' },
 
   // Passport
-  'get /login': 'AuthController.login',
-  'get /logout': 'AuthController.logout',
-  'get /register': 'AuthController.register',
+  'get /login': 'Auth.login',
+  'get /logout': 'Auth.logout',
+  'get /register': 'Auth.register',
 
-  'post /auth/local': 'AuthController.callback',
-  'post /auth/local/:action': 'AuthController.callback',
+  'post /auth/local': 'Auth.callback',
+  'post /auth/local/:action': 'Auth.callback',
 
-  'get /auth/:provider': 'AuthController.provider',
-  'get /auth/:provider/callback': 'AuthController.callback',
-  'get /auth/:provider/:action': 'AuthController.callback',
-
-  // Campaign management
-  'post /api/campaign/create': 'CampaignController.create',
-  'get /campaign/create': { view: 'campaign/create' },
-
-  'get /api/campaign/:campaign': 'CampaignController.index',
-  'get /campaign/:campaign': { view: 'campaign' },
-
-  // Sessions
-  'post /api/campaign/:campaign/session/create': 'CampaignSessionController.create',
-  'get /campaign/:campaign/session/create': { view: 'campaign/session/create' },
-
-  'get /api/campaign/:campaign/session/:session': 'CampaignSessionController.index',
-  'get /campaign/:campaign/session/:session': { view: 'campaign/session' },
-
-  'get /api/campaign/:campaign/session/:session/message': 'CampaignSessionMessageController.create',
+  'get /auth/:provider': 'Auth.provider',
+  'get /auth/:provider/callback': 'Auth.callback',
+  'get /auth/:provider/:action': 'Auth.callback',
 
 };

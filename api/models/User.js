@@ -6,6 +6,7 @@
 */
 
 module.exports = {
+
   // Enforce model schema in the case of schemaless databases
   schema: true,
 
@@ -35,7 +36,7 @@ module.exports = {
     },
 
     passports: {
-      collection: 'Passport',
+      collection: 'passport',
       via: 'user'
     },
 

@@ -31,10 +31,10 @@ module.exports = {
       required: true,
     },
 
-    maps: {
-      collection: 'campaignmap',
+    /*maps: {
+      collection: 'map',
       via: 'campaign',
-    },
+    },*/
 
     characters: {
       collection: 'character',
@@ -42,7 +42,7 @@ module.exports = {
     },
 
     sessions: {
-      collection: 'campaignsession',
+      collection: 'session',
       via: 'campaign',
     },
   },

@@ -1,0 +1,15 @@
+<div ng-controller="SessionController">
+  <div class="rio-session">
+    <div class="rio-session-messages">
+      <div class="rio-session-message" ng-repeat="message in messages">
+        <span class="body">{{ message.body }}</span>
+      </div>
+    </div>
+
+    <form novalidate>
+      <input type="checkbox" ng-model="message.ooc">
+      <input ng-model="message.body">
+      <button ng-click="send(message)">Say</button>
+    </form>
+  </div>
+</div>

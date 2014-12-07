@@ -1,42 +1,41 @@
 /**
- * CampaignSessionMessageController
+ * MessageController
  *
- * @description :: Server-side logic for managing Campaignsessionmessages
+ * @description :: Server-side logic for managing Messages
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
 module.exports = {
+
   create: function(req, res) {
-    CampaignSession
-      .findOneById(req.params.session)
+    Session
+      .findOneById(req.body.session)
       .exec(function(err, session) {
         if (err) {
           return res.send(err, 400);
         }
 
-        CampaignSessionMessage
+        Message
           .create(
             {
               session: session.id,
-              user: '3m5589oy5', //req.session.user.id,
-              body: req.params.body,
+              body: req.body.body,
             },
             function(err, message) {
               if (err) {
                 return res.send(err, 500);
               }
 
-              message.user = req.session.user;
-
               if (req.isSocket) {
-                CampaignSessionMessage
-                  .publishCreate(message.toJSON(), req.socket);
+                Session.message(session.id, {
+                  origin: 'chat',
+                  content: message.toObject(),
+                });
               }
-
-              return res.json(message);
             }
           );
       });
   },
+
 };
 
