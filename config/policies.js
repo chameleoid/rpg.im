@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  '*': !(process.env.NODE_ENV && process.env.NODE_ENV != 'development'),
+  '*': true, //!(process.env.NODE_ENV && process.env.NODE_ENV != 'development'),
 
   CampaignController: {
     create: 'passport',
