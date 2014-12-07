@@ -55,6 +55,9 @@ module.exports.sockets = {
   //   'xhr-polling',
   //   'jsonp-polling'
   // ],
+  transports: [
+    'websocket',
+  ],
 
   /***************************************************************************
   *                                                                          *
