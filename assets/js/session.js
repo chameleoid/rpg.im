@@ -6,14 +6,14 @@ app.controller('SessionController',
       $sailsSocket
         .get($location.path())
         .success(function(session) {
-          $scope.messages = session.messages.reverse();
+          $scope.messages = session.messages;
         });
 
       $sailsSocket
         .subscribe('session', function(msg) {
           switch (msg.data.origin) {
             case 'chat':
-              $scope.messages.unshift(msg.data.content);
+              $scope.messages.push(msg.data.content);
               break;
           }
         });

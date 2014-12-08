@@ -7,7 +7,7 @@
       <div class="rim-messages">
         <div
           class="rim-message rim-message-{{ message.type.split(':').pop() }}"
-          ng-repeat="message in messages">
+          ng-repeat="message in messages | orderBy:'createdAt':true">
           <span class="rim-message-body">{{ message.body }}</span>
           <span class="rim-message-timestamp">{{ message.createdAt | date:'shortTime' | lowercase }}</span>
         </div>
