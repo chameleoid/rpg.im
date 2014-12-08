@@ -1,15 +1,23 @@
 <div ng-controller="SessionController">
-  <div class="rio-session">
-    <div class="rio-session-messages">
-      <div class="rio-session-message" ng-repeat="message in messages">
-        <span class="body">{{ message.body }}</span>
-      </div>
+  <div class="rim-session">
+    <div class="rim-map">
     </div>
 
-    <form novalidate>
-      <input type="checkbox" ng-model="message.ooc">
-      <input ng-model="message.body">
-      <button ng-click="send(message)">Say</button>
-    </form>
+    <div class="rim-session-log">
+      <div class="rim-messages">
+        <div
+          class="rim-message rim-message-{{ message.type.split(':').pop() }}"
+          ng-repeat="message in messages">
+          <span class="rim-message-body">{{ message.body }}</span>
+          <span class="rim-message-timestamp">{{ message.createdAt | date:'shortTime' | lowercase }}</span>
+        </div>
+      </div>
+
+      <form novalidate>
+        <input type="checkbox" ng-model="message.ooc">
+        <input ng-model="message.body" autofocus>
+        <button ng-click="send(message)">Say</button>
+      </form>
+    </div>
   </div>
 </div>

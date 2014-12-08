@@ -1,7 +1,7 @@
 (function(_csrf, io) {
   io.socket.on('connect', function() {
     io.socket.get('/csrfToken', function(data) {
-      _csrf = data._csrf;
+      //_csrf = data._csrf;
     });
 
     if (!io.socket._post) {

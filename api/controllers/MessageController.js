@@ -11,14 +11,15 @@ module.exports = {
     Session
       .findOneById(req.body.session)
       .exec(function(err, session) {
-        if (err) {
-          return res.send(err, 400);
+        if (err || !session) {
+          return res.send(err, 404);
         }
 
         Message
           .create(
             {
               session: session.id,
+              type: req.body.type || 'message:ic',
               body: req.body.body,
             },
             function(err, message) {

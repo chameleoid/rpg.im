@@ -34,13 +34,16 @@ module.exports.session = {
   //   maxAge: 24 * 60 * 60 * 1000
   // }
 
+};
+
+if (process.env.REDIS_HOST) {
   /***************************************************************************
   *                                                                          *
   * In production, uncomment the following lines to set up a shared redis    *
   * session store that can be shared across multiple Sails.js servers        *
   ***************************************************************************/
 
-  // adapter: 'redis',
+  module.exports.session.adapter = 'redis';
 
   /***************************************************************************
   *                                                                          *
@@ -51,40 +54,11 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-  // host: 'localhost',
-  // port: 6379,
-  // ttl: <redis session TTL in seconds>,
-  // db: 0,
-  // pass: <redis auth password>
-  // prefix: 'sess:'
-
-
-  /***************************************************************************
-  *                                                                          *
-  * Uncomment the following lines to use your Mongo adapter as a session     *
-  * store                                                                    *
-  *                                                                          *
-  ***************************************************************************/
-
-  // adapter: 'mongo',
-  // host: 'localhost',
-  // port: 27017,
-  // db: 'sails',
-  // collection: 'sessions',
-
-  /***************************************************************************
-  *                                                                          *
-  * Optional Values:                                                         *
-  *                                                                          *
-  * # Note: url will override other connection settings url:                 *
-  * 'mongodb://user:pass@host:port/database/collection',                     *
-  *                                                                          *
-  ***************************************************************************/
-
-  // username: '',
-  // password: '',
-  // auto_reconnect: false,
-  // ssl: false,
-  // stringify: true
+  module.exports.session.host = process.env.REDIS_HOST;
+  module.exports.session.port = process.env.REDIS_PORT;
+  //module.exports.session.ttl = <redis session TTL in seconds>;
+  module.exports.session.db = process.env.REDIS_DATABASE;
+  module.exports.session.pass = process.env.REDIS_PASSWORD;
+  module.exports.session.prefix = 'sess:';
 
 };
