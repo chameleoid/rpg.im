@@ -14,7 +14,11 @@
       </div>
 
       <form novalidate>
-        <input type="checkbox" ng-model="message.ooc">
+        <div
+          class="rim-toggle rim-toggle-{{ message.ooc ? 'ooc' : 'ic' }}"
+          ng-click="message.ooc = !message.ooc">
+          {{ message.ooc ? 'OOC' : 'IC' }}
+        </div>
         <input ng-model="message.body" autofocus>
         <button ng-click="send(message)">Say</button>
       </form>
