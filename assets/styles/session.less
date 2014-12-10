@@ -15,53 +15,64 @@
 
     form {
       display: flex;
-      min-height: 2em;
-      line-height: 2em;
+      min-height: 2.5em;
 
       > input,
       > button,
       > div {
         flex-grow: 1;
+        margin: 2px 0 2px 2px;
+        margin-top: 3px;
+      }
+
+      > :last-child {
+        margin-right: 2px;
+      }
+
+      > button {
+        width: 3ch;
       }
 
       .rim-toggle {
         text-align: center;
         vertical-align: middle;
-        width: 3ch;
-        cursor: pointer;
-        font-size: small;
-        line-height: inherit;
-        -webkit-user-select: none;
-        user-select: none;
 
         &.rim-toggle-ooc {
           background: @red;
         }
 
         &.rim-toggle-ic {
-          background: @green;
+          background: @yellow;
         }
       }
     }
 
     .rim-messages {
-      display: flex;
-      flex-direction: column-reverse;
-      flex-grow: 1;
       padding: 3px;
-
+      flex-grow: 1;
       overflow: auto;
 
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: flex-start;
+
       .rim-message {
-        min-height: 1em;
         display: flex;
+        flex-shrink: 0;
+
+        > div:not(:last-child) {
+          margin-right: 2px;
+        }
 
         .rim-message-body {
           flex-grow: 1;
+          word-wrap: break-word;
         }
 
         .rim-message-timestamp {
           font-size: x-small;
+          white-space: pre;
+          flex-shrink: 0;
         }
 
         &.rim-message-ooc .rim-message-body {
