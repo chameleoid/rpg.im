@@ -1,26 +1,26 @@
-<div ng-controller="SessionController">
+<div ng:controller="SessionController">
   <div class="rim-session">
-    <div class="rim-map">
-    </div>
+    <svg class="rim-map" rim:map>
+    </svg>
 
-    <div class="rim-session-log">
+    <div class="rim-session-log" rim:session-log>
       <div class="rim-messages">
         <div
           class="rim-message rim-message-{{ message.type.split(':').pop() }}"
-          ng-repeat="message in messages | orderBy:'createdAt':true">
-          <span class="rim-message-body">{{ message.body }}</span>
-          <span class="rim-message-timestamp">{{ message.createdAt | date:'shortTime' | lowercase }}</span>
+          ng:repeat="message in messages | orderBy:'createdAt':true">
+          <div class="rim-message-body">{{ message.body }}</div>
+          <div class="rim-message-timestamp">{{ message.createdAt | date:'shortTime' | lowercase }}</div>
         </div>
       </div>
 
       <form novalidate>
-        <div
+        <button type="button"
           class="rim-toggle rim-toggle-{{ message.ooc ? 'ooc' : 'ic' }}"
-          ng-click="message.ooc = !message.ooc">
+          ng:click="message.ooc = !message.ooc">
           {{ message.ooc ? 'OOC' : 'IC' }}
-        </div>
-        <input ng-model="message.body" autofocus>
-        <button ng-click="send(message)">Say</button>
+        </button>
+        <input ng:model="message.body" autofocus>
+        <button class="primary" ng:click="send(message)">Say</button>
       </form>
     </div>
   </div>
