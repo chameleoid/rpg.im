@@ -1,4 +1,4 @@
-var app = angular.module('RPGim', ['sails.io']);
+var app = angular.module('rimApp', ['sails.io']);
 
 app.config(
   ['$locationProvider', '$sailsSocketProvider',
