@@ -44,10 +44,10 @@ module.exports = {
         }
 
         if (!req.isSocket) {
-          res.view('session/index', session);
+          res.view('session/index');
         } else {
-          Session.subscribe(req.socket, session, 'message');
           res.json(session);
+          Session.subscribe(req.socket, session, 'message');
         }
       });
   },

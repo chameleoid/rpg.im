@@ -34,7 +34,7 @@
     <!--STYLES END-->
   </head>
 
-  <body ng-app="RPGim">
+  <body ng-app="rimApp">
     <%- body %>
 
 
@@ -90,15 +90,22 @@
 
     <!--SCRIPTS-->
     <script src="/js/dependencies/sails.io.js"></script>
-    <script src="/js/dependencies/0-angular.min.js"></script>
+    <script src="/js/dependencies/0-jquery-2.1.1.min.js"></script>
+    <script src="/js/dependencies/1-angular.min.js"></script>
     <script src="/js/dependencies/angular-cookies.min.js"></script>
     <script src="/js/dependencies/csrf.js"></script>
+    <script src="/js/dependencies/gestures.min.js"></script>
+    <script src="/js/dependencies/jquery.mousewheel.min.js"></script>
     <script src="/js/dependencies/ngsails.io.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/controllers/MapController.js"></script>
     <script src="/js/controllers/SessionController.js"></script>
     <script src="/js/controllers/SessionLogController.js"></script>
+    <script src="/js/directives/rimDraggable.js"></script>
+    <script src="/js/directives/rimMap.js"></script>
     <script src="/js/directives/rimSession.js"></script>
     <script src="/js/directives/rimSessionLog.js"></script>
+    <script src="/js/factories/Map.js"></script>
     <script src="/js/session.js"></script>
     <!--SCRIPTS END-->
     <script>
