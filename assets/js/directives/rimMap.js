@@ -19,8 +19,8 @@ app.directive('rimMap',
           $scope.maxLeft = $scope.width + 1 - (element_.clientWidth / $scope.zoom);
           $scope.maxTop = $scope.height + 1 - (element_.clientHeight / $scope.zoom);
 
-          var x = $scope.left = 0;
-          var y = $scope.top = 0;
+          var x = $scope.left = $scope.maxLeft / 2;
+          var y = $scope.top = $scope.maxTop / 2;
 
           $element.on('contextmenu', function(event) {
             if (!event.shiftKey) {
