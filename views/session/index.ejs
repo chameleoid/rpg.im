@@ -1,31 +1,38 @@
 <div rim-session class="rim-session">
   <svg class="rim-map" rim-map>
     <defs>
-      <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-        <g stroke="black" x1="0" y1="0" x2="0" y2="0" stroke-width="{{ 1 / zoom }}">
-          <line y2="32" />
-          <line x2="32" />
+      <pattern id="grid" width="1" height="1" shape-rendering="crispEdges" patternUnits="userSpaceOnUse">
+        <g stroke="black" x1="0" y1="0" x2="0" y2="0" stroke-width="{{ 1.01 / zoom }}">
+          <line y2="1" />
+          <line x2="1" />
         </g>
+      </pattern>
+
+      <pattern id="triangle" width="1" height="1" patternContentUnits="objectBoundingBox">
+        <polygon points="0.5,0 0,1 1,1" stroke-width="{{ 1.01 / zoom }}" />
       </pattern>
     </defs>
 
-    <g stroke="black" stroke-width="2">
-      <line y1="-3" x1="2" y2="-3" x2="48"
-            transform="translate({{ (left - minLeft) / (maxLeft - minLeft) * (innerWidth - 50) }} {{ innerHeight }})" />
-      <line x1="-3" y1="2" x2="-3" y2="48"
-            transform="translate({{ innerWidth }} {{ (top - minTop) / (maxTop - minTop) * (innerHeight - 50) }})" />
+    <g fill="black" stroke="white" stroke-width="4" shape-rendering="crispEdges">
+      <rect width="6" height="10%"
+            transform="translate(-6 0)"
+            x="100%" y="{{ (top + 1) / (maxTop + 1) * 90 }}%" />
+
+      <rect width="10%" height="6"
+            transform="translate(0 -6)"
+            x="{{ (left + 1) / (maxLeft + 1) * 90 }}%" y="100%" />
     </g>
 
-    <g id="map" transform="scale({{ zoom }}) translate({{ left | number:0 }} {{ top | number:0 }})">
+    <g id="map" transform="scale({{ zoom }}) translate({{ -left }} {{ -top }})">
       <rect fill="url(#grid)" x="0" y="0"
-            width="{{ width }}" height="{{ height }}" />
+            width="{{ width + 1 / zoom }}" height="{{ height + 1 / zoom }}" />
 
       <g ng-repeat="layer in layers" class="layer"
          fill="black" stroke="gray" stroke-width="{{ 1 / zoom }}"
-         transform="translate(0.5 0.5)">
+         transform="translate({{ 0.5 / zoom }} {{ 0.5 / zoom }})">
         <rect ng-repeat="(pos, item) in layer.data"
-              x="{{ item.x * square }}" y="{{ item.y * square }}"
-              width="{{ square }}" height="{{ square }}" />
+              x="{{ item.x }}" y="{{ item.y }}"
+              width="1" height="1" />
       </g>
     </g>
   </svg>
@@ -46,7 +53,7 @@
         ng-click="message.ooc = !message.ooc">
         {{ message.ooc ? 'OOC' : 'IC' }}
       </button>
-      <input ng-model="message.body" autofocus>
+      <input ng-model="message.body" autofocus />
       <button class="primary" ng-click="send(message)">Say</button>
     </form>
   </div>
