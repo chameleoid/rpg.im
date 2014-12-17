@@ -48,7 +48,10 @@ app.directive('rimMap',
 
             switch (event.button) {
               case 0: // left
-                if (!event.target.parentNode.classList.contains('layer')) {
+                var _x = Math.floor(x + event.pageX / $scope.zoom);
+                var _y = Math.floor(y + event.pageY / $scope.zoom);
+
+                if (!$scope.layers[0].data[_x + ':' + _y]) {
                   draw(event);
                   $document.on('mousemove', draw);
                   $document.on('mouseup', drawEnd);

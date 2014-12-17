@@ -1162,12 +1162,12 @@ function isScope(obj) {
     return obj && obj.$evalAsync && obj.$watch;
 }
 function isFile(obj) {
-    return toString.call(obj) === '[object File]';
+    return Array.prototype.toString.call(obj) === '[object File]';
 }
 
 
 function isBlob(obj) {
-    return toString.call(obj) === '[object Blob]';
+    return Array.prototype.toString.call(obj) === '[object Blob]';
 }
 
 
@@ -1176,7 +1176,7 @@ function isBoolean(value) {
 }
 
 function isArray(value) {
-    return toString.call(value) === '[object Array]';
+    return Array.prototype.toString.call(value) === '[object Array]';
 }
 
 
