@@ -9,34 +9,18 @@ app.directive('rimMap',
           var startX;
           var startY;
 
-          $scope.square = 32;
+          var element_ = $element.get(0);
 
-          $scope.size = 50;
+          $scope.zoom = 32;
 
-          $scope.zoom = 1;
+          $scope.width = 50;
+          $scope.height = 50;
 
-          $scope.width = $scope.square * $scope.size + 1;
-          $scope.height = $scope.square * $scope.size + 1;
+          $scope.maxLeft = $scope.width + 1 - (element_.clientWidth / $scope.zoom);
+          $scope.maxTop = $scope.height + 1 - (element_.clientHeight / $scope.zoom);
 
-          $scope.innerWidth = $element.innerWidth();
-          $scope.innerHeight = $element.innerHeight();
-
-          $scope.maxLeft = -($scope.width - $scope.innerWidth + $scope.square);
-          $scope.maxTop = -($scope.height - $scope.innerHeight + $scope.square);
-
-          $scope.minLeft = $scope.square;
-          $scope.minTop = $scope.square;
-
-          var x = $scope.left = $scope.maxLeft / 2;
-          var y = $scope.top = $scope.maxTop / 2;
-
-          $scope.$watch('size', function() {
-            $scope.width = $scope.square * $scope.size + 1;
-            $scope.height = $scope.square * $scope.size + 1;
-
-            $scope.maxLeft = -($scope.width - $scope.innerWidth + $scope.square);
-            $scope.maxTop = -($scope.height - $scope.innerHeight + $scope.square);
-          });
+          var x = $scope.left = 0;
+          var y = $scope.top = 0;
 
           $element.on('contextmenu', function(event) {
             if (!event.shiftKey) {
@@ -46,8 +30,8 @@ app.directive('rimMap',
 
           $element.on('mousewheel', function(event) {
             $scope.$applyAsync(function() {
-              x -= event.deltaX * 25;
-              y += event.deltaY * 25;
+              x += event.deltaX * (25 / $scope.zoom);
+              y -= event.deltaY * (25 / $scope.zoom);
 
               forceBounds();
 
@@ -59,14 +43,20 @@ app.directive('rimMap',
           $element.on('mousedown', function(event) {
             event.preventDefault();
 
-            startX = event.pageX - x;
-            startY = event.pageY - y;
+            startX = event.pageX / $scope.zoom + x;
+            startY = event.pageY / $scope.zoom + y;
 
             switch (event.button) {
               case 0: // left
-                draw(event);
-                $document.on('mousemove', draw);
-                $document.on('mouseup', drawEnd);
+                if (!event.target.parentNode.classList.contains('layer')) {
+                  draw(event);
+                  $document.on('mousemove', draw);
+                  $document.on('mouseup', drawEnd);
+                } else {
+                  erase(event);
+                  $document.on('mousemove', erase);
+                  $document.on('mouseup', eraseEnd);
+                }
                 break;
 
               case 2: // right
@@ -77,8 +67,8 @@ app.directive('rimMap',
           });
 
           function drag(event) {
-            y = event.pageY - startY;
-            x = event.pageX - startX;
+            y = startY - event.pageY / $scope.zoom;
+            x = startX - event.pageX / $scope.zoom;
 
             forceBounds();
 
@@ -86,12 +76,9 @@ app.directive('rimMap',
               cursor: 'move',
             });
 
-            var _x = x;
-            var _y = y;
-
             $scope.$applyAsync(function() {
-              $scope.left = _x;
-              $scope.top = _y;
+              $scope.left = x;
+              $scope.top = y;
             });
           }
 
@@ -105,10 +92,10 @@ app.directive('rimMap',
           }
 
           function draw(event) {
-            if (!event.target.parentNode.classList.contains('layer')) {
-              var _x = Math.floor((-x + event.pageX) / $scope.square);
-              var _y = Math.floor((-y + event.pageY) / $scope.square);
+            var _x = Math.floor(x + event.pageX / $scope.zoom);
+            var _y = Math.floor(y + event.pageY / $scope.zoom);
 
+            if (!$scope.layers[0].data[_x + ':' + _y]) {
               $scope.$apply(function() {
                 $scope.layers[0].data[_x + ':' + _y] = {
                   type: 'wall',
@@ -124,16 +111,32 @@ app.directive('rimMap',
             $document.off('mouseup', drawEnd);
           }
 
+          function erase(event) {
+            var _x = Math.floor(x + event.pageX / $scope.zoom);
+            var _y = Math.floor(y + event.pageY / $scope.zoom);
+
+            if ($scope.layers[0].data[_x + ':' + _y]) {
+              $scope.$apply(function() {
+                delete $scope.layers[0].data[_x + ':' + _y];
+              });
+            }
+          }
+
+          function eraseEnd() {
+            $document.off('mousemove', erase);
+            $document.off('mouseup', eraseEnd);
+          }
+
           function forceBounds() {
-            if (x > $scope.minLeft) {
-              x = $scope.minLeft;
-            } else if (x < $scope.maxLeft) {
+            if (x < -1) {
+              x = -1;
+            } else if (x > $scope.maxLeft) {
               x = $scope.maxLeft;
             }
 
-            if (y > $scope.minTop) {
-              y = $scope.minTop;
-            } else if (y < $scope.maxTop) {
+            if (y < -1) {
+              y = -1;
+            } else if (y > $scope.maxTop) {
               y = $scope.maxTop;
             }
           }
