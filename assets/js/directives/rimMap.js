@@ -1,6 +1,6 @@
 app.directive('rimMap',
-  ['$document',
-    function($document) {
+  ['$document', '$window',
+    function($document, $window) {
       return {
         controller: 'MapController',
         $scope: {},
@@ -21,6 +21,18 @@ app.directive('rimMap',
 
           var x = $scope.left = $scope.maxLeft / 2;
           var y = $scope.top = $scope.maxTop / 2;
+
+          $window.jQuery($window).on('resize', function() {
+            $scope.$applyAsync(function() {
+              $scope.maxLeft = $scope.width + 1 - (element_.clientWidth / $scope.zoom);
+              $scope.maxTop = $scope.height + 1 - (element_.clientHeight / $scope.zoom);
+
+              forceBounds();
+
+              $scope.left = x;
+              $scope.top = y;
+            });
+          });
 
           $element.on('contextmenu', function(event) {
             if (!event.shiftKey) {
