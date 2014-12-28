@@ -29,7 +29,7 @@ module.exports = {
 
               if (req.isSocket) {
                 Session.message(session.id, {
-                  origin: 'chat',
+                  origin: 'chat:message',
                   content: message.toObject(),
                 });
               }

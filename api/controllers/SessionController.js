@@ -38,6 +38,7 @@ module.exports = {
     Session
       .findOneById(req.params.id)
       .populate('messages')
+      .populate('map')
       .exec(function(err, session) {
         if (err) {
           return res.send(err, 404);
@@ -47,7 +48,8 @@ module.exports = {
           res.view('session/index');
         } else {
           res.json(session);
-          Session.subscribe(req.socket, session, 'message');
+          Session.subscribe(req.socket, session.id, 'message');
+          Map.subscribe(req.socket, session.map.id, 'update');
         }
       });
   },

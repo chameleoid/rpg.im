@@ -28,6 +28,16 @@ module.exports = {
 
     data: {
       type: 'json',
+      defaultsTo: '{"height":50,"width":50,"layers":[{"data":{}}]}',
+    },
+
+    toJSON: function() {
+      var obj = this.toObject();
+
+      delete obj.updatedAt;
+      delete obj.createdAt;
+
+      return obj;
     },
   },
 
