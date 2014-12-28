@@ -4,20 +4,28 @@ app.factory('Layer', ['Point', function(Point) {
    * Layer in a {@link rim.Map}
    * @constructor
    * @memberof rim
-   * @param {object.<number,rim.Point|{x:number,y:number,type:string}>} [data]  Hashmap of points
+   * @param {object} options
+   * @param {object.<number,rim.Point|{x:number,y:number,type:string}>} [options.data]  Hashmap of points
    */
-  function Layer(data) {
+  function Layer(options) {
+    var self = this;
+    options = options || {};
+
     /**
      * Reference to map containing this point
      * @type {rim.Map}
      */
-    this.map = null;
+    this.map = options.map || null;
 
     /**
      * Hashmap of points
      * @type {object.<number,rim.Point>}
      */
-    this.data = data || {};
+    this.data = {};
+
+    angular.forEach(options.data, function(point) {
+      self.addPoint(point);
+    });
   }
 
   Layer.prototype = {
@@ -34,11 +42,15 @@ app.factory('Layer', ['Point', function(Point) {
       }
 
       if (!(point instanceof Point)) {
-        point = new Point(point);
+        point = new Point(angular.extend({
+          map: this.map,
+          layer: this,
+        }, point));
       }
 
       point.map = this.map;
       point.layer = this;
+
       this.data[point.getIndex()] = point;
 
       return point;

@@ -4,13 +4,35 @@ app.factory('Map', ['Layer', function(Layer) {
    * Maps
    * @constructor
    * @memberof rim
-   * @param {object} data
-   * @param {number} data.width  Width of map
-   * @param {number} data.height  Height of map
-   * @param {array.<rim.Layer|object.<number,rim.Point|{x:number,y:number,type:string}>>} [data.layers]  Array of layer data
+   * @param {object} options
+   * @param {number} options.width  Width of map
+   * @param {number} options.height  Height of map
+   * @param {array.<rim.Layer|{data:object.<number,rim.Point|{x:number,y:number,type:string}>}>} [options.layers]  Array of layer data
    */
-  function Map(data) {
+  function Map(options) {
     var self = this;
+    options = options || {};
+
+    /**
+     * Map ID
+     * @private
+     * @type {string}
+     */
+    this.id_ = options.id || '';
+
+    /**
+     * Width of map
+     * @private
+     * @type {number}
+     */
+    this.width_ = options.width || 5;
+
+    /**
+     * Height of map
+     * @private
+     * @type {number}
+     */
+    this.height_ = options.height || 5;
 
     /**
      * Map layers
@@ -18,34 +40,13 @@ app.factory('Map', ['Layer', function(Layer) {
      */
     this.layers = [];
 
-    if (!data || !angular.isArray(data.layers)) {
+    if (!angular.isArray(options.layers)) {
       this.addLayer();
     } else {
-      angular.forEach(data.layers, function(layer) {
+      angular.forEach(options.layers, function(layer) {
         self.addLayer(layer);
       });
     }
-
-    /**
-     * Width of map
-     * @private
-     * @type {number}
-     */
-    this.width_ = 5;
-
-    /**
-     * Height of map
-     * @private
-     * @type {number}
-     */
-    this.height_ = 5;
-
-    /**
-     * Map ID
-     * @private
-     * @type {string}
-     */
-    this.id_ = '';
   }
 
   Map.prototype = {
@@ -55,15 +56,12 @@ app.factory('Map', ['Layer', function(Layer) {
      * @memberof rim.Map.prototype
      */
     addLayer: function(layer) {
-      if (angular.isUndefined(layer)) {
-        layer = new Layer();
-      }
-
       if (!(layer instanceof Layer)) {
-        layer = new Layer(layer);
+        layer = new Layer(angular.extend({ map: this }, layer));
       }
 
       layer.map = this;
+
       return this.layers.push(layer);
     },
 

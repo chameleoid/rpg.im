@@ -4,38 +4,38 @@ app.factory('Point', function() {
    * Point on a {@link rim.Layer}
    * @constructor
    * @memberof rim
-   * @param {object} data
-   * @param {number} data.x  X coordinate
-   * @param {number} data.y  Y coordinate
-   * @param {string} data.type  Type of point
+   * @param {object} options
+   * @param {number} options.x  X coordinate
+   * @param {number} options.y  Y coordinate
+   * @param {string} options.type  Type of point
    */
-  function Point(data) {
+  function Point(options) {
     /**
      * @private
      * @type {number}
      */
-    this.x_ = data.x || 0;
+    this.x_ = options.x || 0;
 
     /**
      * @private
      * @type {number}
      */
-    this.y_ = data.y || 0;
+    this.y_ = options.y || 0;
 
     /** @type {string} */
-    this.type = data.type || 'wall';
+    this.type = options.type || 'wall';
 
     /**
      * Reference to map containing this point
      * @type {rim.Map}
      */
-    this.map = null;
+    this.map = options.map || null;
 
     /**
      * Reference to layer containing this point
      * @type {rim.Layer}
      */
-    this.layer = null;
+    this.layer = options.layer || null;
   }
 
   Point.prototype = {
@@ -84,20 +84,6 @@ app.factory('Point', function() {
         y: this.y_,
       };
     },
-  };
-
-  /**
-   * Creates a point from index
-   * @param {number} index  Index of point
-   * @param {number} width  Width of containing map
-   * @return {rim.Point}
-   * @memberof rim.Point
-   */
-  Point.fromIndex = function(index, width) {
-    return new Point({
-      x: x,
-      y: y,
-    });
   };
 
   return Point;
