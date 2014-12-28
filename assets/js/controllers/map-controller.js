@@ -5,9 +5,14 @@ app.controller('MapController',
 
       $scope.$on('session:init', function(event, session) {
         var data = angular.extend({ id: session.map.id }, session.map.data);
-        $scope.map = map = new Map(data);
-        layer = map.layers[0];
-        $scope.layer = 0;
+
+        $scope.$applyAsync(function() {
+          $scope.map = map = new Map(data);
+          layer = map.layers[0];
+          $scope.layer = 0;
+          $scope.width = map.width;
+          $scope.height = map.height;
+        });
       });
 
       $scope.$watch('layer', function(newValue, oldValue) {

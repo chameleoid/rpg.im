@@ -23,6 +23,19 @@ app.directive('rimMap',
           var x = $scope.left = $scope.maxLeft / 2;
           var y = $scope.top = $scope.maxTop / 2;
 
+          $scope.$watch('width', function() {
+            $scope.maxLeft = $scope.width + 1 - (element_.clientWidth / $scope.zoom);
+            $scope.maxTop = $scope.height + 1 - (element_.clientHeight / $scope.zoom);
+
+            x = $scope.left = $scope.maxLeft / 2;
+            y = $scope.top = $scope.maxTop / 2;
+
+            forceBounds();
+
+            $scope.left = x;
+            $scope.top = y;
+          });
+
           $window.jQuery($window).on('resize', function() {
             $scope.$applyAsync(function() {
               $scope.maxLeft = $scope.width + 1 - (element_.clientWidth / $scope.zoom);
