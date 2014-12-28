@@ -7,7 +7,6 @@ app.controller('SessionController',
         .get($location.path())
         .success(function(session) {
           $scope.$broadcast('session:init', session);
-          console.log(session);
         });
 
       $sailsSocket
@@ -21,6 +20,13 @@ app.controller('SessionController',
             session: sessionId,
             body: message.body,
             type: message.type,
+          });
+      });
+
+      $scope.$on('map:update', function(event, map) {
+        $sailsSocket
+          .put('/map/' + map.id, {
+            data: JSON.stringify(map),
           });
       });
     }

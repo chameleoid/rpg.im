@@ -1,16 +1,20 @@
 app.controller('MapController',
   ['$scope', 'Map',
     function($scope, Map) {
-      var map = new Map();
-      var layer = map.layers[0];
+      var drawing, map, layer;
 
-      $scope.map = map;
-
-      $scope.layer = 0;
-
-      var drawing;
+      $scope.$on('session:init', function(event, session) {
+        var data = angular.extend({ id: session.map.id }, session.map.data);
+        $scope.map = map = new Map(data);
+        layer = map.layers[0];
+        $scope.layer = 0;
+      });
 
       $scope.$watch('layer', function(newValue, oldValue) {
+        if (!map) {
+          return;
+        }
+
         var layer_ = map.layers[newValue];
 
         if (layer_) {
@@ -31,19 +35,25 @@ app.controller('MapController',
       $scope.$on('pen', function(event, pen) {
         $scope.$applyAsync(function() {
           var pointExists = !!layer.getPoint(pen.point);
+          var point = pen.point;
 
           // drawing && !pointExists || !drawing && pointExists
           if (drawing != pointExists) {
             if (!drawing) {
-              layer.removePoint(pen.point);
+              layer.removePoint(point);
             } else {
-              layer.addPoint({
+              point = layer.addPoint({
                 x: pen.x,
                 y: pen.y,
               });
             }
 
-            console.log(JSON.stringify(map));
+            $scope.$emit('map:update', map);
+
+            $scope.$emit('map:point:' + (drawing ? 'add' : 'remove'), {
+              layer: $scope.layer,
+              point: point,
+            });
           }
         });
       });
