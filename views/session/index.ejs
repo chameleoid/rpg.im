@@ -4,7 +4,7 @@
       <pattern id="grid" width="1" height="1" shape-rendering="crispEdges"
                patternUnits="userSpaceOnUse">
         <g x1="0" y1="0" x2="0" y2="0"
-           stroke="black" stroke-width="{{ 1.01 / zoom }}">
+           stroke="black" ng-stroke-width="{{ 1.01 / zoom }}">
           <line y2="1" />
           <line x2="1" />
         </g>
@@ -20,7 +20,7 @@
                                       'nonagon', 'decagon' ]"
                id="{{ polygon }}" width="1" height="1"
                patternContentUnits="objectBoundingBox">
-        <polygon rim-polygon data-sides="{{ $index + 3 }}" stroke-width="{{ 1.01 / zoom }}" />
+        <polygon rim-polygon data-sides="{{ $index + 3 }}" ng-stroke-width="{{ 1.01 / zoom }}" />
       </pattern>
     </defs>
 
@@ -28,24 +28,31 @@
        shape-rendering="crispEdges">
       <rect width="6" height="10%"
             transform="translate(-6 0)"
-            x="100%" y="{{ (top + 1) / (maxTop + 1) * 90 }}%" />
+            x="100%" ng-y="{{ (top + 1) / (maxTop + 1) * 90 }}%" />
 
       <rect width="10%" height="6"
             transform="translate(0 -6)"
-            x="{{ (left + 1) / (maxLeft + 1) * 90 }}%" y="100%" />
+            ng-x="{{ (left + 1) / (maxLeft + 1) * 90 }}%" y="100%" />
     </g>
 
-    <g id="map" transform="scale({{ zoom }})
+    <g id="map" ng-transform="scale({{ zoom }})
        translate({{ -left | pixelate:zoom }} {{ -top | pixelate:zoom }})">
       <rect fill="url(#grid)" x="0" y="0"
-            width="{{ width + 1 / zoom }}" height="{{ height + 1 / zoom }}" />
+            ng-width="{{ width + 1 / zoom }}" ng-height="{{ height + 1 / zoom }}" />
 
       <g ng-repeat="layer in map.layers" class="layer"
-         fill="black" stroke="gray" stroke-width="{{ 1 / zoom }}"
-         transform="translate({{ 0.5 / zoom }} {{ 0.5 / zoom }})">
+         fill="black" stroke="gray" ng-stroke-width="{{ 1 / zoom }}"
+         ng-transform="translate({{ 0.5 / zoom }} {{ 0.5 / zoom }})">
         <rect ng-repeat="(pos, item) in layer.data"
-              x="{{ item.x }}" y="{{ item.y }}"
+              ng-x="{{ item.x }}" ng-y="{{ item.y }}"
               width="1" height="1" />
+
+        <!--<rect ng-repeat="token in ['triangle', 'square', 'pentagon',
+                                   'hexagon', 'septagon', 'octagon',
+                                   'nonagon', 'decagon', 'circle' ]"
+              ng-x="{{ $index / 3 + 0.7 | number:0 }}" ng-y="{{ $index % 3 + 1 }}"
+              ng-fill="url(#{{ token }})" stroke="none"
+              width="1" height="1" />-->
       </g>
     </g>
   </svg>
