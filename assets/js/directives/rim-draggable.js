@@ -1,5 +1,5 @@
 app.directive('rimDraggable',
-  ['$document', '$window', 'Map',
+  ['$document', '$window',
     function($document, $window) {
       return {
         link: function(scope, element, attrs) {
@@ -17,11 +17,26 @@ app.directive('rimDraggable',
           element.on('mousedown', function(event) {
             event.preventDefault();
 
+            width = element.outerWidth();
+            height = element.outerHeight();
+
             startX = event.pageX - x;
             startY = event.pageY - y;
 
             $document.on('mousemove', mousemove);
             $document.on('mouseup', mouseup);
+          });
+
+          $window.jQuery($window).on('resize', function() {
+            var ev = {
+              pageX: 0,
+              pageY: 0,
+            };
+
+            element
+              .trigger(angular.extend(ev, { type: 'mousedown' }))
+              .trigger(angular.extend(ev, { type: 'mousemove' }))
+              .trigger(angular.extend(ev, { type: 'mouseup' }));
           });
 
           function mousemove(event) {

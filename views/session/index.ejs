@@ -1,19 +1,31 @@
 <div rim-session class="rim-session">
-  <svg class="rim-map" rim-map>
+  <svg class="rim-map" width="100%" rim-map>
     <defs>
-      <pattern id="grid" width="1" height="1" shape-rendering="crispEdges" patternUnits="userSpaceOnUse">
-        <g stroke="black" x1="0" y1="0" x2="0" y2="0" stroke-width="{{ 1.01 / zoom }}">
+      <pattern id="grid" width="1" height="1" shape-rendering="crispEdges"
+               patternUnits="userSpaceOnUse">
+        <g x1="0" y1="0" x2="0" y2="0"
+           stroke="black" stroke-width="{{ 1.01 / zoom }}">
           <line y2="1" />
           <line x2="1" />
         </g>
       </pattern>
 
-      <pattern id="triangle" width="1" height="1" patternContentUnits="objectBoundingBox">
-        <polygon points="0.5,0 0,1 1,1" stroke-width="{{ 1.01 / zoom }}" />
+      <pattern id="circle" width="1" height="1"
+               patternContentUnits="objectBoundingBox">
+        <circle cx="0.5" cy="0.5" r="0.4" />
+      </pattern>
+
+      <pattern ng-repeat="polygon in ['triangle', 'square', 'pentagon',
+                                      'hexagon', 'septagon', 'octagon',
+                                      'nonagon', 'decagon' ]"
+               id="{{ polygon }}" width="1" height="1"
+               patternContentUnits="objectBoundingBox">
+        <polygon rim-polygon data-sides="{{ $index + 3 }}" stroke-width="{{ 1.01 / zoom }}" />
       </pattern>
     </defs>
 
-    <g fill="black" stroke="white" stroke-width="4" shape-rendering="crispEdges">
+    <g fill="black" stroke="white" stroke-width="4"
+       shape-rendering="crispEdges">
       <rect width="6" height="10%"
             transform="translate(-6 0)"
             x="100%" y="{{ (top + 1) / (maxTop + 1) * 90 }}%" />
@@ -23,11 +35,12 @@
             x="{{ (left + 1) / (maxLeft + 1) * 90 }}%" y="100%" />
     </g>
 
-    <g id="map" transform="scale({{ zoom }}) translate({{ -left }} {{ -top }})">
+    <g id="map" transform="scale({{ zoom }})
+       translate({{ -left | pixelate:zoom }} {{ -top | pixelate:zoom }})">
       <rect fill="url(#grid)" x="0" y="0"
             width="{{ width + 1 / zoom }}" height="{{ height + 1 / zoom }}" />
 
-      <g ng-repeat="layer in layers" class="layer"
+      <g ng-repeat="layer in map.layers" class="layer"
          fill="black" stroke="gray" stroke-width="{{ 1 / zoom }}"
          transform="translate({{ 0.5 / zoom }} {{ 0.5 / zoom }})">
         <rect ng-repeat="(pos, item) in layer.data"

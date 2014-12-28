@@ -7,11 +7,16 @@
 
   .rim-session-log {
     position: fixed;
-    top: 50px;
-    left: 50px;
+    top: calc(~'100vh - 222px');
+    left: calc(~'100vw - 472px');
 
-    height: calc(~'100vh - 100px');
-    width: 300px;
+    height: 150px;
+    width: 400px;
+
+    max-height: calc(~'100vh - 22px');
+    max-width: calc(~'100vw - 22px');
+
+    padding: 10px;
 
     background: rgba(255, 255, 255, .9);
     border: 1px solid rgba(0, 0, 0, .3);
@@ -20,10 +25,14 @@
     box-shadow: 0 2px 35px rgba(0, 0, 0, .2);
     border-radius: 2px;
 
+    overflow: auto;
+    resize: both;
+
     display: flex;
     flex-direction: column;
 
     form {
+      resize: none;
       display: flex;
       min-height: 2.5em;
 
@@ -41,6 +50,7 @@
 
       > button {
         width: 3ch;
+        max-width: 9ch;
       }
 
       .rim-toggle {
@@ -61,6 +71,7 @@
       padding: 3px;
       flex-grow: 1;
       overflow: auto;
+      resize: none;
 
       display: flex;
       flex-direction: column-reverse;

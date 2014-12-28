@@ -98,14 +98,19 @@
     <script src="/js/dependencies/jquery.mousewheel.min.js"></script>
     <script src="/js/dependencies/ngsails.io.js"></script>
     <script src="/js/app.js"></script>
-    <script src="/js/controllers/MapController.js"></script>
-    <script src="/js/controllers/SessionController.js"></script>
-    <script src="/js/controllers/SessionLogController.js"></script>
-    <script src="/js/directives/rimDraggable.js"></script>
-    <script src="/js/directives/rimMap.js"></script>
-    <script src="/js/directives/rimSession.js"></script>
-    <script src="/js/directives/rimSessionLog.js"></script>
-    <script src="/js/factories/Map.js"></script>
+    <script src="/js/controllers/map-controller.js"></script>
+    <script src="/js/controllers/session-controller.js"></script>
+    <script src="/js/controllers/session-log-controller.js"></script>
+    <script src="/js/directives/rim-draggable.js"></script>
+    <script src="/js/directives/rim-map.js"></script>
+    <script src="/js/directives/rim-polygon.js"></script>
+    <script src="/js/directives/rim-resizable.js"></script>
+    <script src="/js/directives/rim-session-log.js"></script>
+    <script src="/js/directives/rim-session.js"></script>
+    <script src="/js/factories/layer.js"></script>
+    <script src="/js/factories/map.js"></script>
+    <script src="/js/factories/point.js"></script>
+    <script src="/js/filters/pixelate.js"></script>
     <!--SCRIPTS END-->
     <script>
       if (io.sails.environment == 'production') {
