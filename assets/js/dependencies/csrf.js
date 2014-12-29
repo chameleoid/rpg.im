@@ -13,8 +13,8 @@
         options = options || {};
 
         if (methods.indexOf(options.method) > -1) {
-          options.data = options.data || {};
-          options.data._csrf = options.data._csrf || _csrf;
+          options.headers = options.headers || {};
+          options.headers['X-CSRF-Token'] = options.headers['X-CSRF-Token'] || _csrf;
         }
 
         return io.socket._request_(options, cb);
