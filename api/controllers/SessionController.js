@@ -5,29 +5,38 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
+var async = require('async');
+
+function errorResponse(res, fn) {
+  var code = this;
+
+  return function(err) {
+    if (err) {
+      return res.send(err, code);
+    }
+
+    var args = Array.prototype.slice.call(arguments, 1);
+
+    return fn.apply(fn, args);
+  };
+}
+
 module.exports = {
 
   create: function(req, res) {
-    Map.create({}, function(err, map) {
-      if (err) {
-        return res.send(err, 500);
-      }
+    var e = errorResponse.bind(500, res);
 
-      Session
-        .create(
-          {
-            map: map.id,
-          },
+    async.series(
+      { map: function(cb) {
+        Map.create({}, cb);
+      }},
 
-          function(err, session) {
-            if (err) {
-              return res.send(err, 500);
-            }
-
-            return res.redirect('/session/' + session.id);
-          }
-        );
-    });
+      e(function(r) {
+        Session.create({ map: r.map.id }, e(function(session) {
+          return res.redirect('/session/' + session.id);
+        }));
+      })
+    );
   },
 
   find: function(req, res) {
@@ -35,15 +44,13 @@ module.exports = {
   },
 
   findOne: function(req, res) {
+    var e = errorResponse.bind(404, res);
+
     Session
       .findOneById(req.params.id)
       .populate('messages')
       .populate('map')
-      .exec(function(err, session) {
-        if (err) {
-          return res.send(err, 404);
-        }
-
+      .exec(e(function(session) {
         if (!req.isSocket) {
           res.view('session/index');
         } else {
@@ -51,7 +58,7 @@ module.exports = {
           Session.subscribe(req.socket, session.id, 'message');
           Map.subscribe(req.socket, session.map.id, 'update');
         }
-      });
+      }));
   },
 
 };
