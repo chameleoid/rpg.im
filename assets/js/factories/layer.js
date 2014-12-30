@@ -63,13 +63,17 @@ app.factory('Layer', ['Point', function(Point) {
      * @memberof rim.Layer.prototype
      */
     removePoint: function(point) {
-      var point_ = this.getPoint(point);
+      if (!angular.isNumber(point)) {
+        var point_ = this.getPoint(point);
 
-      if (point_) {
-        delete this.data[point_.getIndex()];
+        if (point_) {
+          point = point.toIndex();
+        } else {
+          return false;
+        }
       }
 
-      return !!point_;
+      return !!delete this.data[point];
     },
 
     /**
