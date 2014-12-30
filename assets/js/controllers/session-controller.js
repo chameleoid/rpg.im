@@ -1,6 +1,6 @@
 app.controller('SessionController',
   ['$scope', '$sailsSocket', '$log', '$location',
-    function($scope, $sailsSocket, $log, $location, $window) {
+    function($scope, $sailsSocket, $log, $location) {
       var sessionId = $location.path().split('/').pop();
 
       $sailsSocket
