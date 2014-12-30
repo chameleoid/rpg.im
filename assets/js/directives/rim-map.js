@@ -14,8 +14,8 @@ app.directive('rimMap',
 
           $scope.zoom = 32;
 
-          $scope.width = 5;
-          $scope.height = 5;
+          $scope.width = 0;
+          $scope.height = 0;
 
           $scope.maxLeft = $scope.width + 1 - (element_.clientWidth / $scope.zoom);
           $scope.maxTop = $scope.height + 1 - (element_.clientHeight / $scope.zoom);
