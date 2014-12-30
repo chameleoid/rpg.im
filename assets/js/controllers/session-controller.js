@@ -14,6 +14,27 @@ app.controller('SessionController',
           $scope.$broadcast(msg.data.origin, msg.data.content);
         });
 
+      $sailsSocket
+        .subscribe('map', function(msg) {
+          var newMap = JSON.parse(msg.data.data).layers[0].data;
+          var oldMap = msg.previous.data.layers[0].data;
+          var diff = {};
+
+          Object.keys(oldMap).forEach(function(key) {
+            if (typeof newMap[key] == 'undefined') {
+              diff[key] = null;
+            } else {
+              delete newMap[key];
+            }
+          });
+
+          Object.keys(newMap).forEach(function(key) {
+            diff[key] = newMap[key];
+          });
+
+          $scope.$broadcast('map:diff', diff);
+        });
+
       $scope.$on('chat:message:send', function(event, message) {
         $sailsSocket
           .post('/message', {

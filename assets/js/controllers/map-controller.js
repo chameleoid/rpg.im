@@ -15,6 +15,16 @@ app.controller('MapController',
         });
       });
 
+      $scope.$on('map:diff', function(event, diff) {
+        Object.keys(diff).forEach(function(point) {
+          if (diff[point]) {
+            layer.addPoint(diff[point]);
+          } else {
+            layer.removePoint(+point);
+          }
+        });
+      });
+
       $scope.$watch('layer', function(newValue, oldValue) {
         if (!map) {
           return;
