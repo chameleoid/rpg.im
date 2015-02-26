@@ -15,6 +15,10 @@ app.directive('rimDraggable',
           var y = offset.top;
 
           element.on('mousedown', function(event) {
+            if (/input|button/i.test(event.target.nodeName)) {
+              return;
+            }
+
             event.preventDefault();
 
             width = element.outerWidth();
